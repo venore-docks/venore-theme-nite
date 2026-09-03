@@ -1,21 +1,18 @@
 import Link from "next/link";
 import type { HeaderSlotProps } from "@venore/theme-sdk";
+import { BrandMark } from "./BrandMark";
 import { MobileNavToggleButton } from "./MobileNavToggleButton";
-import { PlatformBrand } from "./PlatformBrand";
 import { UserMenu } from "./UserMenu";
 
-// Faixa única, full-width, sem mecânica de encolher ao rolar — calma de propósito ("sóbrio").
-// O ponto aceso ao lado da marca é o ÚNICO lugar da interface onde a animação de pulso aparece
-// (@keyframes pulse-glow, theme.css) — pedido desta sessão: "acentuação... não exagerada" é um
-// efeito pontual, não espalhado por vários componentes.
+// Base do venore-pulse (faixa única full-width). A marca é o losango de circuito do tema Nite
+// (BrandMark), não o PlatformBrand genérico.
 export function HeaderSlot({ brand, userbarEnabled, headerNavItems, user, canAccessAdmin, onSignOut }: HeaderSlotProps) {
   return (
     <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between gap-6 border-b border-border bg-card px-4 text-foreground shadow-header sm:px-6">
       <div className="flex min-w-0 items-center gap-3">
         <MobileNavToggleButton />
         <Link href="/" aria-label={brand.name} className="inline-flex min-w-0 items-center gap-2">
-          <PlatformBrand {...brand} isScrolled={false} />
-          <span aria-hidden="true" className="size-1.5 shrink-0 rounded-full bg-accent animate-[pulse-glow_2.8s_ease-in-out_infinite]" />
+          <BrandMark name={brand.name} />
         </Link>
       </div>
 
