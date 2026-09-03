@@ -11,7 +11,7 @@ export function HeaderSlot({ brand, userbarEnabled, headerNavItems, user, canAcc
     <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between gap-6 border-b border-border bg-card px-4 text-foreground shadow-header sm:px-6">
       <div className="flex min-w-0 items-center gap-3">
         <MobileNavToggleButton />
-        <Link href="/" aria-label={brand.name} className="inline-flex min-w-0 items-center gap-2">
+        <Link href="/" aria-label={brand.name} className="py-2 inline-flex min-w-0 items-center gap-2">
           <PlatformBrand {...brand} isScrolled={false} />
         </Link>
       </div>

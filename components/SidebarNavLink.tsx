@@ -53,10 +53,10 @@ export function SidebarNavLink({ item, collapsed, isAdmin }: { item: MainNavItem
           data-active-ancestor={isActiveAncestor ? "true" : undefined}
           className={cn(
             "group/sidebar-collapse-target relative flex w-full items-center gap-3 px-3 py-3 text-left text-sm font-medium ui-motion-base outline-none focus-visible:ring-2 focus-visible:ring-ring",
-            isActiveAncestor ? "text-primary" : "text-muted-foreground",
+            isActiveAncestor ? "text-accent font-semibold" : "text-muted-foreground",
             isAdmin
               ? "hover:bg-muted hover:text-foreground active:bg-muted active:text-foreground"
-              : "hover:bg-accent/14 hover:text-primary active:bg-accent/14 active:text-primary",
+              : "hover:bg-muted hover:text-foreground active:bg-muted active:text-foreground",
           )}
         >
           <span aria-hidden="true" className="inline-flex size-5 shrink-0 items-center justify-center">
@@ -99,8 +99,8 @@ export function SidebarNavLink({ item, collapsed, isAdmin }: { item: MainNavItem
       aria-current={isActive ? "page" : undefined}
       className={cn(
         "group/sidebar-collapse-target relative flex items-center gap-3 px-3 py-3 text-sm font-medium ui-motion-base outline-none focus-visible:ring-2 focus-visible:ring-ring",
-        isActive ? "bg-accent/14 text-primary" : "text-muted-foreground",
-        isAdmin ? "hover:bg-muted hover:text-foreground active:bg-muted active:text-foreground" : "hover:bg-accent/14 hover:text-primary active:bg-accent/14 active:text-primary",
+        isActive ? "bg-accent/14 text-accent font-semibold" : "text-muted-foreground",
+        isAdmin ? "hover:bg-muted hover:text-foreground active:bg-muted active:text-foreground" : "hover:bg-muted hover:text-foreground active:bg-muted active:text-foreground",
       )}
     >
       <span aria-hidden="true" className="inline-flex size-5 shrink-0 items-center justify-center">
