@@ -1,39 +1,44 @@
-/* Nite — cyberpunk. Cidade à noite sob neon: preto-violeta profundo, magenta elétrico e ciano de
-   letreiro, varredura de scanline no fundo. Tema single-mode (colorModes: ["dark"]) — o root
-   layout força .dark e o botão de color-mode some. Os dois blocos abaixo carregam valores
-   escuros (o base é o que renderiza; o .dark reafirma pra qualquer cascata).
-   Shell base do venore-pulse; brandmark e fundo próprios.
+/* Venore Nite — "Grid": HUD cyberpunk. Refatoração completa (pedido desta sessão) — shell nova
+   (sidebar sempre em modo rail só-ícone, nunca expande) e paleta nova (magenta neon + ciano,
+   não mais o magenta antigo #d63aa8 solto). Também deixa de ser single-mode: agora tem versão
+   clara ("cyberpunk diurno") além da escura.
 
-   [data-theme="nite"] no <html> ativa este bloco. */
+   Regra desta sessão (mesma do Aurora): o modo CLARO é mais colorido/saturado que o escuro.
+
+   [data-theme="nite"] no <html> ativa o bloco base; .dark também vive no <html> (nunca
+   aninhado), por isso a variante escura é o seletor composto abaixo. */
 
 [data-theme="nite"] {
-  --radius: 0rem;
+  /* raio — mínimo, digital; HUD não tem cantos macios. */
+  --radius: 0.375rem;
   --radius-shell: 0rem;
-  --radius-panel: 0rem;
-  --ui-radius-scale-sm: 0.5;
+  --radius-panel: 0.5rem;
+  --ui-radius-scale-sm: 0.6;
   --ui-radius-scale-md: 1;
-  --ui-radius-scale-lg: 1.4;
-  --ui-radius-scale-xl: 1.8;
-  --ui-radius-scale-2xl: 2.4;
+  --ui-radius-scale-lg: 1.6;
+  --ui-radius-scale-xl: 2.2;
+  --ui-radius-scale-2xl: 2.6;
   --ui-radius-scale-3xl: 3;
-  --ui-radius-scale-4xl: 3.6;
+  --ui-radius-scale-4xl: 3.4;
 
-  --ui-tracking-caps: 0.24em;
+  /* tracking-caps bem largo — leitura tipo HUD/readout digital. */
+  --ui-tracking-caps: 0.2em;
 
-  --ui-motion-fast: 90ms;
-  --ui-motion-base: 150ms;
-  --ui-motion-slow: 240ms;
-  --ui-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  /* motion — instantâneo, sem suavização perceptível. */
+  --ui-motion-fast: 80ms;
+  --ui-motion-base: 130ms;
+  --ui-motion-slow: 200ms;
+  --ui-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --ui-ease-emphasis: cubic-bezier(0.16, 1, 0.3, 1);
 
   --ui-font-weight-body: 400;
   --ui-font-weight-medium: 500;
   --ui-font-weight-semibold: 600;
   --ui-font-weight-display: 700;
-  --ui-leading-copy: 1.55;
-  --ui-leading-display: 1.05;
-  --ui-tracking-copy: 0.005em;
-  --ui-tracking-display: 0.01em;
+  --ui-leading-copy: 1.5;
+  --ui-leading-display: 1.08;
+  --ui-tracking-copy: 0em;
+  --ui-tracking-display: -0.02em;
 
   --ui-control-height-xs: 1.75rem;
   --ui-control-height-sm: 2.25rem;
@@ -41,169 +46,178 @@
   --ui-control-height-lg: 2.75rem;
   --ui-control-padding-x: 1rem;
   --ui-button-padding-scale-xs: 0.5;
-  --ui-button-padding-scale-sm: 0.75;
-  --ui-button-padding-scale-lg: 2;
+  --ui-button-padding-scale-sm: 0.7;
+  --ui-button-padding-scale-lg: 1.8;
   --ui-button-gap: 0.5rem;
 
-  --ui-panel-padding-x: 1.5rem;
-  --ui-panel-padding-y: 1.5rem;
+  --ui-panel-padding-x: 1.25rem;
+  --ui-panel-padding-y: 1.25rem;
 
-  --background: oklch(0.16 0.03 300);
-  --foreground: oklch(0.93 0.02 320);
-  --card: oklch(0.2 0.035 300);
-  --card-foreground: oklch(0.93 0.02 320);
-  --popover: oklch(0.2 0.035 300);
-  --popover-foreground: oklch(0.93 0.02 320);
-  --primary: oklch(0.7 0.27 330);
-  --primary-foreground: oklch(0.12 0.03 330);
-  --secondary: oklch(0.26 0.045 295);
-  --secondary-foreground: oklch(0.93 0.02 320);
-  --muted: oklch(0.26 0.045 295);
-  --muted-foreground: oklch(0.7 0.05 300);
-  --accent: oklch(0.82 0.16 195);
-  --accent-foreground: oklch(0.14 0.04 210);
-  --destructive: oklch(0.65 0.25 15);
-  --destructive-foreground: oklch(0.98 0.01 15);
-  --border: oklch(0.34 0.06 300);
-  --input: oklch(0.34 0.06 300);
-  --ring: oklch(0.82 0.16 195);
+  /* base shadcn — branco/lavanda bem claro, magenta neon vívido (mais chroma aqui que no .dark). */
+  --background: oklch(0.98 0.008 320);
+  --foreground: oklch(0.18 0.02 320);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.02 320);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.02 320);
+  --primary: oklch(0.58 0.26 330);
+  --primary-foreground: oklch(0.99 0.008 330);
+  --secondary: oklch(0.95 0.015 320);
+  --secondary-foreground: oklch(0.24 0.02 320);
+  --muted: oklch(0.95 0.015 320);
+  --muted-foreground: oklch(0.46 0.025 320);
+  --accent: oklch(0.85 0.15 195);
+  --accent-foreground: oklch(0.18 0.05 195);
+  --destructive: oklch(0.58 0.24 20);
+  --destructive-foreground: oklch(0.98 0.01 20);
+  --border: oklch(0.9 0.02 320);
+  --input: oklch(0.87 0.02 320);
+  --ring: oklch(0.58 0.22 330);
 
-  --shadow-color: oklch(0.02 0.02 300);
-  --shadow-color-strong: oklch(0 0 0);
-  --shadow-color-soft: color-mix(in oklch, var(--primary) 22%, transparent);
-  --shadow-color-strong-soft: color-mix(in oklch, var(--accent) 18%, transparent);
-  --shadow-panel: 0 0 0 1px color-mix(in oklch, var(--primary) 16%, transparent), 0 2px 18px var(--shadow-color-soft);
-  --shadow-float: 0 0 24px var(--shadow-color-strong-soft), 0 12px 40px -12px color-mix(in oklch, black 60%, transparent);
-  --shadow-header: 0 1px 0 color-mix(in oklch, var(--accent) 30%, transparent);
+  --shadow-color: oklch(0.55 0.06 330);
+  --shadow-color-strong: oklch(0.35 0.08 330);
+  --shadow-color-soft: color-mix(in oklch, var(--shadow-color) 20%, transparent);
+  --shadow-color-strong-soft: color-mix(in oklch, var(--shadow-color-strong) 18%, transparent);
+  --shadow-panel: 0 1px 2px -1px var(--shadow-color-strong-soft), 0 8px 20px -12px var(--shadow-color-soft);
+  --shadow-float: 0 2px 6px -2px var(--shadow-color-strong-soft), 0 14px 30px -14px var(--shadow-color-strong-soft);
+  --shadow-header: 0 1px 0 0 var(--border), 0 6px 20px -12px color-mix(in oklch, var(--primary) 35%, transparent);
 
-  --sidebar-width: 16rem;
-  --sidebar-bg-start: oklch(0.14 0.03 302);
-  --sidebar-bg-end: oklch(0.14 0.03 302);
-  --sidebar-bg: var(--sidebar-bg-start);
-  --sidebar-bg-admin-start: oklch(0.155 0.038 288);
-  --sidebar-bg-admin-end: oklch(0.155 0.038 288);
-  --sidebar-bg-admin: var(--sidebar-bg-admin-start);
+  /* --sidebar-width-expanded fica declarado (vocabulário do contrato) mas nunca é usado — este
+     tema não tem estado expandido (ver SidebarLeftSlot.tsx, sempre rail só-ícone). */
+  --sidebar-width-expanded: 16rem;
+  --sidebar-width-collapsed: 4.5rem;
 
-  --warning: oklch(0.85 0.17 95);
-  --warning-foreground: oklch(0.16 0.03 95);
-  --warning-soft: color-mix(in oklch, var(--warning) 16%, var(--card));
-  --warning-border: color-mix(in oklch, var(--warning) 36%, var(--border));
+  --sidebar-bg-start: oklch(0.16 0.03 325);
+  --sidebar-bg-end: oklch(0.12 0.035 325);
+  --sidebar-bg: linear-gradient(180deg, var(--sidebar-bg-start) 0%, var(--sidebar-bg-end) 100%);
+  --sidebar-bg-admin-start: oklch(0.16 0.03 325);
+  --sidebar-bg-admin-end: oklch(0.12 0.035 325);
+  --sidebar-bg-admin: linear-gradient(180deg, var(--sidebar-bg-admin-start) 0%, var(--sidebar-bg-admin-end) 100%);
 
-  --success: oklch(0.82 0.18 150);
-  --success-foreground: oklch(0.14 0.03 150);
-  --success-soft: color-mix(in oklch, var(--success) 16%, var(--card));
-  --success-border: color-mix(in oklch, var(--success) 36%, var(--border));
+  --warning: oklch(0.72 0.18 85);
+  --warning-foreground: oklch(0.18 0.02 85);
+  --warning-soft: color-mix(in oklch, var(--warning) 14%, var(--card));
+  --warning-border: color-mix(in oklch, var(--warning) 30%, var(--border));
+
+  --success: oklch(0.68 0.19 160);
+  --success-foreground: oklch(0.15 0.02 160);
+  --success-soft: color-mix(in oklch, var(--success) 14%, var(--card));
+  --success-border: color-mix(in oklch, var(--success) 30%, var(--border));
 
   --chart-1: var(--primary);
-  --chart-2: var(--accent);
-  --chart-3: oklch(0.82 0.17 95);
-  --chart-4: oklch(0.75 0.2 275);
+  --chart-2: oklch(0.72 0.16 195);
+  --chart-3: var(--muted-foreground);
+  --chart-4: var(--warning);
   --chart-5: var(--destructive);
-  --chart-6: oklch(0.78 0.16 230);
-  --chart-7: oklch(0.7 0.25 350);
+  --chart-6: oklch(0.6 0.2 235);
+  --chart-7: oklch(0.66 0.22 20);
 
   --overlay-foreground: oklch(1 0 0);
 
-  --presentation-ground: oklch(0.13 0.03 300);
-  --presentation-card: oklch(0.17 0.035 300);
-  --presentation-border: oklch(0.32 0.06 300);
-  --presentation-foreground: oklch(0.94 0.02 320);
-  --presentation-muted-foreground: oklch(0.72 0.05 300);
-  --presentation-success: oklch(0.82 0.18 150);
-  --presentation-success-soft: color-mix(in oklch, var(--presentation-success) 18%, var(--presentation-card));
-  --presentation-success-border: color-mix(in oklch, var(--presentation-success) 38%, var(--presentation-border));
-  --presentation-warning: oklch(0.85 0.17 95);
-  --presentation-warning-soft: color-mix(in oklch, var(--presentation-warning) 18%, var(--presentation-card));
-  --presentation-warning-border: color-mix(in oklch, var(--presentation-warning) 38%, var(--presentation-border));
-  --presentation-destructive: oklch(0.66 0.25 15);
-  --presentation-renewed: oklch(0.78 0.16 230);
-  --presentation-new: oklch(0.7 0.25 350);
+  /* superfície "apresentação" — sempre a versão escura do tema, frozen (só bloco base). Sidebar
+     do modo apresentação é sempre a rail HUD, coerente com o resto. */
+  --presentation-ground: oklch(0.1 0.025 325);
+  --presentation-card: oklch(0.14 0.03 325);
+  --presentation-border: oklch(0.28 0.06 325);
+  --presentation-foreground: oklch(0.95 0.015 320);
+  --presentation-muted-foreground: oklch(0.72 0.02 320);
+  --presentation-success: oklch(0.72 0.18 160);
+  --presentation-success-soft: color-mix(in oklch, var(--presentation-success) 16%, var(--presentation-card));
+  --presentation-success-border: color-mix(in oklch, var(--presentation-success) 34%, var(--presentation-border));
+  --presentation-warning: oklch(0.78 0.18 85);
+  --presentation-warning-soft: color-mix(in oklch, var(--presentation-warning) 16%, var(--presentation-card));
+  --presentation-warning-border: color-mix(in oklch, var(--presentation-warning) 34%, var(--presentation-border));
+  --presentation-destructive: oklch(0.62 0.24 20);
+  --presentation-renewed: oklch(0.62 0.2 235);
+  --presentation-new: oklch(0.66 0.22 20);
 
-  /* identidade FLAT — cor chapada + scanline tileado (SVG, não gradiente). Sem glow de fundo;
-     o brilho de neon fica só em foco/estado ativo (regras escopadas no fim do arquivo). */
-  --app-bg-start: oklch(0.155 0.03 300);
-  --app-bg-end: oklch(0.155 0.03 300);
-  --app-background: var(--background)
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='3'%3E%3Crect width='4' height='1' fill='%23000' fill-opacity='0.22'/%3E%3C/svg%3E")
-    repeat;
+  --app-bg-start: oklch(0.99 0.006 320);
+  --app-bg-mid: oklch(0.98 0.01 320);
+  --app-bg-end: oklch(0.965 0.014 318);
+  --app-background: radial-gradient(
+      110% 70% at 100% 0%,
+      color-mix(in oklch, var(--accent) 14%, transparent) 0%,
+      transparent 55%
+    ),
+    linear-gradient(180deg, var(--app-bg-start) 0%, var(--app-bg-mid) 55%, var(--app-bg-end) 100%);
+
+  --header-bg: oklch(1 0 0);
+  --header-chip-bg: color-mix(in oklch, var(--muted) 50%, var(--card));
+  --header-avatar-bg: color-mix(in oklch, var(--accent) 35%, var(--card));
+  --header-avatar-fg: var(--foreground);
+  --header-border-subtle: var(--border);
+  --header-border-strong: var(--ring);
 }
 
 [data-theme="nite"].dark {
-  --background: oklch(0.16 0.03 300);
-  --foreground: oklch(0.93 0.02 320);
-  --card: oklch(0.2 0.035 300);
-  --card-foreground: oklch(0.93 0.02 320);
-  --popover: oklch(0.2 0.035 300);
-  --popover-foreground: oklch(0.93 0.02 320);
-  --primary: oklch(0.7 0.27 330);
-  --primary-foreground: oklch(0.12 0.03 330);
-  --secondary: oklch(0.26 0.045 295);
-  --secondary-foreground: oklch(0.93 0.02 320);
-  --muted: oklch(0.26 0.045 295);
-  --muted-foreground: oklch(0.7 0.05 300);
-  --accent: oklch(0.82 0.16 195);
-  --accent-foreground: oklch(0.14 0.04 210);
-  --destructive: oklch(0.65 0.25 15);
-  --destructive-foreground: oklch(0.98 0.01 15);
-  --border: oklch(0.34 0.06 300);
-  --input: oklch(0.34 0.06 300);
-  --ring: oklch(0.82 0.16 195);
+  /* base shadcn — preto quase puro, magenta neon menos saturado que no claro, ciano por cima. */
+  --background: oklch(0.1 0.025 325);
+  --foreground: oklch(0.94 0.01 320);
+  --card: oklch(0.14 0.03 325);
+  --card-foreground: oklch(0.96 0.008 320);
+  --popover: oklch(0.12 0.03 325);
+  --popover-foreground: oklch(0.96 0.008 320);
+  --primary: oklch(0.68 0.24 330);
+  --primary-foreground: oklch(0.12 0.02 330);
+  --secondary: oklch(0.2 0.03 325);
+  --secondary-foreground: oklch(0.96 0.008 320);
+  --muted: oklch(0.2 0.03 325);
+  --muted-foreground: oklch(0.64 0.03 320);
+  --accent: oklch(0.4 0.12 195);
+  --accent-foreground: oklch(0.94 0.03 195);
+  --destructive: oklch(0.64 0.24 20);
+  --destructive-foreground: oklch(0.97 0.01 20);
+  --border: oklch(0.28 0.05 325);
+  --input: oklch(0.24 0.05 325);
+  --ring: oklch(0.66 0.22 330);
 
-  --shadow-color: oklch(0.02 0.02 300);
+  --shadow-color: oklch(0.02 0 0);
   --shadow-color-strong: oklch(0 0 0);
-  --shadow-color-soft: color-mix(in oklch, var(--primary) 24%, transparent);
-  --shadow-color-strong-soft: color-mix(in oklch, var(--accent) 20%, transparent);
-  --shadow-panel: 0 0 0 1px color-mix(in oklch, var(--primary) 18%, transparent), 0 2px 20px var(--shadow-color-soft);
-  --shadow-float: 0 0 26px var(--shadow-color-strong-soft), 0 12px 40px -12px color-mix(in oklch, black 65%, transparent);
-  --shadow-header: 0 1px 0 color-mix(in oklch, var(--accent) 34%, transparent);
+  --shadow-color-soft: color-mix(in oklch, var(--shadow-color) 48%, transparent);
+  --shadow-color-strong-soft: color-mix(in oklch, var(--shadow-color-strong) 44%, transparent);
+  --shadow-panel: 0 1px 2px -1px var(--shadow-color-strong-soft), 0 10px 24px -14px var(--shadow-color-soft);
+  --shadow-float: 0 2px 6px -2px var(--shadow-color-strong-soft), 0 16px 34px -16px var(--shadow-color-strong-soft);
+  --shadow-header: 0 1px 0 0 var(--border), 0 8px 26px -12px color-mix(in oklch, var(--primary) 45%, transparent);
 
-  --sidebar-bg-start: oklch(0.14 0.03 302);
-  --sidebar-bg-end: oklch(0.14 0.03 302);
-  --sidebar-bg: var(--sidebar-bg-start);
-  --sidebar-bg-admin-start: oklch(0.155 0.038 288);
-  --sidebar-bg-admin-end: oklch(0.155 0.038 288);
-  --sidebar-bg-admin: var(--sidebar-bg-admin-start);
+  --sidebar-bg-start: oklch(0.13 0.028 325);
+  --sidebar-bg-end: oklch(0.09 0.03 325);
+  --sidebar-bg: linear-gradient(180deg, var(--sidebar-bg-start) 0%, var(--sidebar-bg-end) 100%);
+  --sidebar-bg-admin-start: oklch(0.13 0.028 325);
+  --sidebar-bg-admin-end: oklch(0.09 0.03 325);
+  --sidebar-bg-admin: linear-gradient(180deg, var(--sidebar-bg-admin-start) 0%, var(--sidebar-bg-admin-end) 100%);
 
-  --warning: oklch(0.85 0.17 95);
-  --warning-foreground: oklch(0.16 0.03 95);
-  --warning-soft: color-mix(in oklch, var(--warning) 16%, var(--card));
-  --warning-border: color-mix(in oklch, var(--warning) 36%, var(--border));
+  --warning: oklch(0.78 0.17 85);
+  --warning-foreground: oklch(0.16 0.02 85);
+  --warning-soft: color-mix(in oklch, var(--warning) 18%, var(--card));
+  --warning-border: color-mix(in oklch, var(--warning) 34%, var(--border));
 
-  --success: oklch(0.82 0.18 150);
-  --success-foreground: oklch(0.14 0.03 150);
-  --success-soft: color-mix(in oklch, var(--success) 16%, var(--card));
-  --success-border: color-mix(in oklch, var(--success) 36%, var(--border));
+  --success: oklch(0.74 0.18 160);
+  --success-foreground: oklch(0.14 0.02 160);
+  --success-soft: color-mix(in oklch, var(--success) 18%, var(--card));
+  --success-border: color-mix(in oklch, var(--success) 34%, var(--border));
 
   --chart-1: var(--primary);
-  --chart-2: var(--accent);
-  --chart-3: oklch(0.82 0.17 95);
-  --chart-4: oklch(0.75 0.2 275);
+  --chart-2: oklch(0.76 0.15 195);
+  --chart-3: var(--muted-foreground);
+  --chart-4: var(--warning);
   --chart-5: var(--destructive);
-  --chart-6: oklch(0.78 0.16 230);
-  --chart-7: oklch(0.7 0.25 350);
+  --chart-6: oklch(0.64 0.2 235);
+  --chart-7: oklch(0.68 0.22 20);
 
-  --app-bg-start: oklch(0.155 0.03 300);
-  --app-bg-end: oklch(0.155 0.03 300);
-  --app-background: var(--background)
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='3'%3E%3Crect width='4' height='1' fill='%23000' fill-opacity='0.22'/%3E%3C/svg%3E")
-    repeat;
-}
+  --app-bg-start: oklch(0.095 0.024 325);
+  --app-bg-mid: oklch(0.09 0.026 325);
+  --app-bg-end: oklch(0.075 0.028 322);
+  --app-background: radial-gradient(
+      110% 70% at 100% 0%,
+      color-mix(in oklch, var(--accent) 22%, transparent) 0%,
+      transparent 55%
+    ),
+    linear-gradient(180deg, var(--app-bg-start) 0%, var(--app-bg-mid) 55%, var(--app-bg-end) 100%);
 
-/* elementos de identidade — cyberpunk FLAT: sem canto arredondado, régua de neon nos controles,
-   glow só em foco/ativo. Escopado ao tema. */
-[data-theme="nite"] [data-slot="button"] {
-  border: 1px solid color-mix(in oklch, var(--primary) 40%, var(--border));
-}
-[data-theme="nite"] [data-slot="button"]:focus-visible,
-[data-theme="nite"] [data-slot="input"]:focus-visible,
-[data-theme="nite"] [data-slot="select-trigger"]:focus-visible {
-  box-shadow: 0 0 0 1px var(--ring), 0 0 14px color-mix(in oklch, var(--ring) 60%, transparent);
-}
-[data-theme="nite"] [data-slot="input"],
-[data-theme="nite"] [data-slot="select-trigger"] {
-  border-bottom: 2px solid color-mix(in oklch, var(--accent) 55%, var(--border));
-}
-[data-theme="nite"] [data-slot="card"],
-[data-theme="nite"] .rounded-panel {
-  border-left: 2px solid color-mix(in oklch, var(--primary) 50%, transparent);
+  --header-bg: oklch(0.11 0.028 325);
+  --header-chip-bg: color-mix(in oklch, var(--muted) 55%, var(--card));
+  --header-avatar-bg: color-mix(in oklch, var(--accent) 35%, var(--card));
+  --header-avatar-fg: var(--foreground);
+  --header-border-subtle: var(--border);
+  --header-border-strong: var(--ring);
 }

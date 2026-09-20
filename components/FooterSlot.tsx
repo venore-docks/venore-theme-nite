@@ -1,30 +1,47 @@
 import { Sitemap } from "@venore/theme-sdk/ui";
 import type { FooterSlotProps } from "@venore/theme-sdk";
+import { PlatformBrand } from "./PlatformBrand";
 
-// Faixa full-width calma, sem painel de marca em destaque (Slime) nem ponto neon/glow (Nightcity)
-// — brand.color não é consumido aqui, decisão de design deste tema (o contrato só exige aceitar
-// o campo, não usá-lo).
+// Marca num painel accent-soft + grid de sitemap real (Sitemap, componente reutilizável fora do
+// tema), mesma composição do PlatformFooter de referência (protótipo venore-docks,
+// platform-frame.tsx). brand.color aqui é o único lugar do app (fora da impressão de PDF do
+// plugin birthdays) que pinta algo com a cor de marca — um traço de acento sob a marca, cor de
+// negócio injetada via prop, não um token semântico shadcn (mesma exceção documentada em
+// build-birthday-pdf-html.ts). Server component puro, sem I/O — quem busca dado (getBrandConfig +
+// getMenuByLocation("sitemap")) é platform/theme-rendering/resolve-theme-slot-props.ts.
 export function FooterSlot({ brand, sitemapItems, creditsEnabled }: FooterSlotProps) {
   return (
-    <footer className="border-t border-border bg-card px-6 py-8">
-      <div className="mx-auto flex w-full max-w-6xl flex-wrap items-start justify-between gap-8">
-        <div className="min-w-0">
-          <p className="text-sm font-semibold text-foreground">{brand.name}</p>
-          {brand.description.trim().length > 0 && <p className="mt-1 max-w-[32ch] text-xs text-muted-foreground">{brand.description}</p>}
-        </div>
-
-        {sitemapItems.length > 0 && (
-          <div className="flex-1 lg:max-w-2xl">
-            <Sitemap items={sitemapItems} />
+    <footer className="mt-auto grid gap-8 border-t border-border px-4 py-12 text-muted-foreground sm:px-6 lg:grid-cols-[max-content_minmax(0,1fr)] lg:gap-12 lg:px-8">
+      <div className="w-fit max-w-full justify-self-start space-y-5 rounded-panel border border-border bg-accent/14 px-6 py-6">
+        <div>
+          <div className="max-w-40 origin-left scale-125">
+            <PlatformBrand
+              name={brand.name}
+              mode={brand.mode}
+              size={brand.size}
+              scrolledSize={brand.scrolledSize}
+              position={brand.position}
+              logoUrl={brand.logoUrl}
+              scrolledLogoUrl={brand.scrolledLogoUrl}
+              isScrolled={false}
+            />
           </div>
+          <span aria-hidden className="mt-4 block h-0.5 w-10 rounded-full bg-primary/40" />
+        </div>
+        {brand.description.trim().length > 0 && (
+          <p className="max-w-[34ch] text-pretty text-xs leading-6 text-muted-foreground">{brand.description}</p>
         )}
       </div>
 
-      {creditsEnabled && (
-        <div data-credits className="mx-auto mt-6 w-full max-w-6xl border-t border-border pt-4 text-xs text-muted-foreground">
+      <div className="pt-1">
+        <Sitemap items={sitemapItems} />
+      </div>
+
+      {creditsEnabled ? (
+        <div data-credits className="col-span-full border-t border-border pt-4 text-xs text-muted-foreground">
           Venore Docks
         </div>
-      )}
+      ) : null}
     </footer>
   );
 }
